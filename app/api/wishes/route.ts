@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { pusher } from "@/lib/pusher";
+import { pusherServer } from "@/lib/pusher";
 
 export async function POST(req: Request) {
   if (req.method === "POST") {
@@ -10,7 +10,7 @@ export async function POST(req: Request) {
         data: { name, message },
       });
 
-      await pusher.trigger("wishes", "new-wish", wish);
+      await pusherServer.trigger("wishes", "new-wish", wish);
 
       return NextResponse.json(wish);
     } catch (error) {
