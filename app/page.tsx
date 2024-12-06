@@ -1,5 +1,4 @@
 import LiveStream from "@/components/LiveStream";
-import Wishes from "@/components/Wishes";
 import { Button } from "@/components/ui/button";
 import InfoModal from "@/components/InfoModal";
 import { prisma } from "@/lib/prisma";
@@ -45,7 +44,7 @@ export default async function Home() {
         </div>
         <div className="w-full md:w-1/3 space-y-4">
           <Suspense fallback={<div>Loading wishes...</div>}>
-            <Wishes initialWishes={initialWishes} />
+            {/* <Wishes initialWishes={initialWishes} /> */}
           </Suspense>
           <section>
             <h3 className="text-2xl font-semibold mb-4">Hymns</h3>

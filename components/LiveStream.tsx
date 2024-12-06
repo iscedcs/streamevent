@@ -36,32 +36,34 @@ export default function LiveStream({ streamUrl }: LiveStreamProps) {
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="absolute inset-0">
-        <YouTube
-          videoId={videoId}
-          opts={{
-            width: "100%",
-            height: "100%",
-            playerVars: {
-              autoplay: 1,
-              modestbranding: 1,
-              rel: 0,
-            },
-          }}
-          className="absolute top-0 left-0 w-full h-full"
-          iframeClassName="w-full h-full"
-          onReady={() => setIsLoaded(true)}
-        />
+      <div className="w-full h-0 pb-[56.25%] relative bg-black rounded-lg overflow-hidden">
+        <div className="absolute inset-0">
+          <YouTube
+            videoId={videoId}
+            opts={{
+              width: "100%",
+              height: "100%",
+              playerVars: {
+                autoplay: 1,
+                modestbranding: 1,
+                rel: 0,
+              },
+            }}
+            className="absolute top-0 left-0 w-full h-full"
+            iframeClassName="w-full h-full"
+            onReady={() => setIsLoaded(true)}
+          />
+        </div>
+        {!isLoaded && (
+          <motion.div
+            initial={{ opacity: 1 }}
+            animate={{ opacity: 0 }}
+            transition={{ duration: 0.5, delay: 1 }}
+          >
+            Loading live stream...
+          </motion.div>
+        )}
       </div>
-      {!isLoaded && (
-        <motion.div
-          initial={{ opacity: 1 }}
-          animate={{ opacity: 0 }}
-          transition={{ duration: 0.5, delay: 1 }}
-        >
-          Loading live stream...
-        </motion.div>
-      )}
     </motion.div>
   );
 }
