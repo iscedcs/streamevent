@@ -1,22 +1,24 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import YouTube from 'react-youtube'
-import { motion } from 'framer-motion'
+import { useState } from "react";
+import YouTube from "react-youtube";
+import { motion } from "framer-motion";
 
 interface LiveStreamProps {
-  streamUrl: string
+  streamUrl: string;
 }
 
 export default function LiveStream({ streamUrl }: LiveStreamProps) {
-  const [isLoaded, setIsLoaded] = useState(false)
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const getYouTubeVideoId = (url: string) => {
-    const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|live\/|watch\?v=|watch\?.+&v=))([^&?]+)/)
-    return match ? match[1] : null
-  }
+    const match = url.match(
+      /(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|live\/|watch\?v=|watch\?.+&v=))([^&?]+)/
+    );
+    return match ? match[1] : null;
+  };
 
-  const videoId = getYouTubeVideoId(streamUrl)
+  const videoId = getYouTubeVideoId(streamUrl);
 
   if (!videoId) {
     return (
@@ -25,7 +27,7 @@ export default function LiveStream({ streamUrl }: LiveStreamProps) {
           Invalid YouTube URL
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -33,14 +35,13 @@ export default function LiveStream({ streamUrl }: LiveStreamProps) {
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5 }}
-      className="w-full h-0 pb-[56.25%] relative bg-black rounded-lg overflow-hidden"
     >
       <div className="absolute inset-0">
         <YouTube
           videoId={videoId}
           opts={{
-            width: '100%',
-            height: '100%',
+            width: "100%",
+            height: "100%",
             playerVars: {
               autoplay: 1,
               modestbranding: 1,
@@ -57,12 +58,10 @@ export default function LiveStream({ streamUrl }: LiveStreamProps) {
           initial={{ opacity: 1 }}
           animate={{ opacity: 0 }}
           transition={{ duration: 0.5, delay: 1 }}
-          className="absolute inset-0 flex items-center justify-center bg-gray-900 text-white"
         >
           Loading live stream...
         </motion.div>
       )}
     </motion.div>
-  )
+  );
 }
-

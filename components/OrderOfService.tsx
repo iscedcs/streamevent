@@ -1,5 +1,5 @@
-import { motion } from 'framer-motion'
-import { Card, CardContent } from '@/components/ui/card'
+import { motion } from "framer-motion";
+import { Card, CardContent } from "@/components/ui/card";
 
 export default function OrderOfService() {
   return (
@@ -7,14 +7,16 @@ export default function OrderOfService() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="mb-8"
     >
       <h3 className="text-2xl font-semibold mb-4">Order of Service</h3>
       <Card>
         <CardContent className="pt-6">
           <ol className="list-decimal list-inside space-y-2">
             <li>Words of Welcome-Invocation</li>
-            <li>Hymn Of Assurance-"There's a Land That is Fairer Than Day" (Hymn 515)</li>
+            <li>
+              Hymn Of Assurance-"There's a Land That is Fairer Than Day" (Hymn
+              515)
+            </li>
             <li>Bible Reading-1 Thessalonians 4: 13-18: Osahon Darius Odabi</li>
             <li>Hymn Of Affirmation-"When We All Get to Heaven" (Hymn 514)</li>
             <li>Biography: Dickson Odabi</li>
@@ -30,6 +32,5 @@ export default function OrderOfService() {
         </CardContent>
       </Card>
     </motion.section>
-  )
+  );
 }
-
