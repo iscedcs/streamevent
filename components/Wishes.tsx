@@ -14,11 +14,16 @@ import { Wish } from "@prisma/client";
 interface WishesProps {
   initialWishes: Wish[];
 }
+const pusherKey = process.env.NEXT_PUBLIC_PUSHER_KEY;
+const pusherCluster = process.env.NEXT_PUBLIC_PUSHER_CLUSTER ?? "mt1";
 
 export default function Wishes({ initialWishes }: WishesProps) {
   const [wishes, setWishes] = useState<Wish[]>(initialWishes);
   const [newWish, setNewWish] = useState({ name: "", message: "" });
   const wishesEndRef = useRef<HTMLDivElement>(null);
+
+  console.log("Pusher Key:", pusherKey);
+  console.log("Pusher Cluster:", pusherCluster);
 
   const scrollToBottom = () => {
     wishesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -27,8 +32,12 @@ export default function Wishes({ initialWishes }: WishesProps) {
   useEffect(scrollToBottom, [wishes]);
 
   useEffect(() => {
-    const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY!, {
-      cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER!,
+    if (!pusherKey || !pusherCluster) {
+      console.error("Missing Pusher configuration");
+      return;
+    }
+    const pusher = new Pusher(pusherKey, {
+      cluster: pusherCluster,
     });
 
     const channel = pusher.subscribe("wishes");
