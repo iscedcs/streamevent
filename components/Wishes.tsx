@@ -10,6 +10,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
 import { Wish } from "@prisma/client";
 import { pusherClient } from "@/lib/pusher";
+import { sendWish } from "@/app/actions/wishes";
 
 interface WishesProps {
   initialWishes: Wish[];
@@ -43,12 +44,9 @@ export default function Wishes({ initialWishes }: WishesProps) {
     e.preventDefault();
     if (newWish.name && newWish.message) {
       try {
-        const response = await fetch("/api/wishes", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(newWish),
+        const response = await sendWish({
+          message: newWish.message,
+          name: newWish.name,
         });
         if (!response.ok) {
           throw new Error("Failed to submit wish");
