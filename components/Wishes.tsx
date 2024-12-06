@@ -27,19 +27,21 @@ export default function Wishes({ initialWishes }: WishesProps) {
   useEffect(scrollToBottom, [wishes]);
 
   useEffect(() => {
-    const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY!, {
-      cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER!,
-    });
+    if (typeof window !== "undefined") {
+      const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY!, {
+        cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER!,
+      });
 
-    const channel = pusher.subscribe("wishes");
-    channel.bind("new-wish", (data: Wish) => {
-      setWishes((prev) => [data, ...prev]);
-      toast(`New wish from ${data.name}`);
-    });
+      const channel = pusher.subscribe("wishes");
+      channel.bind("new-wish", (data: Wish) => {
+        setWishes((prev) => [data, ...prev]);
+        toast(`New wish from ${data.name}`);
+      });
 
-    return () => {
-      pusher.unsubscribe("wishes");
-    };
+      return () => {
+        pusher.unsubscribe("wishes");
+      };
+    }
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
