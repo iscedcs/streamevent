@@ -8,7 +8,6 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
-import Pusher from "pusher-js";
 import { Wish } from "@prisma/client";
 
 interface WishesProps {
@@ -26,23 +25,25 @@ export default function Wishes({ initialWishes }: WishesProps) {
 
   useEffect(scrollToBottom, [wishes]);
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY!, {
-        cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER!,
-      });
+  // useEffect(() => {
+  //   const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY!, {
+  //     cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER!,
+  //   });
 
-      const channel = pusher.subscribe("wishes");
-      channel.bind("new-wish", (data: Wish) => {
-        setWishes((prev) => [data, ...prev]);
-        toast(`New wish from ${data.name}`);
-      });
+  //   console.log({ pusher });
 
-      return () => {
-        pusher.unsubscribe("wishes");
-      };
-    }
-  }, []);
+  //   const channel = pusher.subscribe("wishes");
+  //   channel.bind("new-wish", (data: Wish) => {
+  //     setWishes((prev) => [data, ...prev]);
+  //     toast(`New wish from ${data.name}`);
+  //   });
+
+  //   return () => {
+  //     channel.unbind_all();
+  //     channel.unsubscribe();
+  //     pusher.unsubscribe("wishes");
+  //   };
+  // }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -92,6 +93,7 @@ export default function Wishes({ initialWishes }: WishesProps) {
         </Button>
       </form>
       <ScrollArea className="h-[300px]">
+        <div ref={wishesEndRef} />
         <AnimatePresence>
           {wishes.map((wish) => (
             <motion.div
@@ -110,7 +112,6 @@ export default function Wishes({ initialWishes }: WishesProps) {
             </motion.div>
           ))}
         </AnimatePresence>
-        <div ref={wishesEndRef} />
       </ScrollArea>
     </section>
   );

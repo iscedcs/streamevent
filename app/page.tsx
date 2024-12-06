@@ -4,6 +4,7 @@ import InfoModal from "@/components/InfoModal";
 import { prisma } from "@/lib/prisma";
 import { Suspense } from "react";
 import PageSections from "@/components/page-sections";
+import Wishes from "@/components/Wishes";
 
 async function getInitialWishes() {
   const wishes = await prisma.wish.findMany({
@@ -44,7 +45,7 @@ export default async function Home() {
         </div>
         <div className="w-full md:w-1/3 space-y-4">
           <Suspense fallback={<div>Loading wishes...</div>}>
-            {/* <Wishes initialWishes={initialWishes} /> */}
+            <Wishes initialWishes={initialWishes} />
           </Suspense>
           <section>
             <h3 className="text-2xl font-semibold mb-4">Hymns</h3>
