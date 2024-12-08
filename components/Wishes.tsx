@@ -10,8 +10,8 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useStore, Wish } from "@/store/useStore";
-import Pusher from "pusher-js";
 import { addWish } from "@/app/actions/wishes";
+import { pusherClient } from "@/lib/pusher";
 
 interface WishesProps {
   initialWishes: Wish[];
@@ -40,18 +40,14 @@ export default function Wishes({ initialWishes }: WishesProps) {
   useEffect(scrollToBottom, [wishes]);
 
   useEffect(() => {
-    const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY!, {
-      cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER!,
-    });
-
-    const channel = pusher.subscribe("wishes");
+    const channel = pusherClient.subscribe("wishes");
     channel.bind("new-wish", (data: Wish) => {
       addWishToStore(data);
       toast(`New wish from ${data.name}`);
     });
 
     return () => {
-      pusher.unsubscribe("wishes");
+      pusherClient.unsubscribe("wishes");
     };
   }, [addWishToStore]);
 
