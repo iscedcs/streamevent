@@ -43,7 +43,7 @@ export default function PageSections() {
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
           >
-            {/* {sections.find((s) => s.id === activeSection)?.component({})} */}
+            {sections.find((s) => s.id === activeSection)?.component()}
           </motion.section>
         )}
       </AnimatePresence>

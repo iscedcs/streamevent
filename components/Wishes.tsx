@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useTransition } from "react";
 import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
@@ -8,18 +8,30 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
-import { Wish } from "@prisma/client";
-import { pusherClient } from "@/lib/pusher";
-import { sendWish } from "@/app/actions/wishes";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { useStore, Wish } from "@/store/useStore";
+import Pusher from "pusher-js";
+import { addWish } from "@/app/actions/wishes";
 
 interface WishesProps {
   initialWishes: Wish[];
 }
 
 export default function Wishes({ initialWishes }: WishesProps) {
-  const [wishes, setWishes] = useState<Wish[]>(initialWishes);
-  const [newWish, setNewWish] = useState({ name: "", message: "" });
+  const {
+    user,
+    updateUserName,
+    wishes,
+    setWishes,
+    addWish: addWishToStore,
+  } = useStore();
+  const [newWish, setNewWish] = useState({ message: "" });
   const wishesEndRef = useRef<HTMLDivElement>(null);
+  const [isPending, startTransition] = useTransition();
+
+  useEffect(() => {
+    setWishes(initialWishes);
+  }, [initialWishes, setWishes]);
 
   const scrollToBottom = () => {
     wishesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -28,64 +40,70 @@ export default function Wishes({ initialWishes }: WishesProps) {
   useEffect(scrollToBottom, [wishes]);
 
   useEffect(() => {
-    pusherClient.subscribe("wishes");
+    const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY!, {
+      cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER!,
+    });
 
-    pusherClient.bind("new-wish", (data: Wish) => {
-      setWishes((prev) => [data, ...prev]);
+    const channel = pusher.subscribe("wishes");
+    channel.bind("new-wish", (data: Wish) => {
+      addWishToStore(data);
       toast(`New wish from ${data.name}`);
     });
 
     return () => {
-      pusherClient.unsubscribe("wishes");
+      pusher.unsubscribe("wishes");
     };
-  }, []);
+  }, [addWishToStore]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (newWish.name && newWish.message) {
-      try {
-        const response = await sendWish({
-          message: newWish.message,
-          name: newWish.name,
-        });
-        if (!response.ok) {
-          throw new Error("Failed to submit wish");
+    if (user && newWish.message) {
+      const formData = new FormData();
+      formData.append("userId", user.id);
+      formData.append("name", user.name);
+      formData.append("image", user.image);
+      formData.append("message", newWish.message);
+
+      startTransition(async () => {
+        const result = await addWish(formData);
+        if (result.success) {
+          setNewWish({ message: "" });
+        } else {
+          toast.error("Failed to submit wish. Please try again.");
         }
-        setNewWish({ name: "", message: "" });
-      } catch (error) {
-        console.error("Error submitting wish:", error);
-        toast.error("Failed to submit wish. Please try again.");
-      }
+      });
     }
   };
 
   return (
-    <section className="mb-8">
-      <h3 className="text-2xl font-semibold mb-4">Condolences and Wishes</h3>
-      <form onSubmit={handleSubmit} className="mb-4 space-y-2">
-        <Input
-          type="text"
-          placeholder="Your Name"
-          value={newWish.name}
-          onChange={(e) =>
-            setNewWish((prev) => ({ ...prev, name: e.target.value }))
-          }
-          required
-        />
+    <div className="space-y-4">
+      {user && (
+        <div className="flex items-center space-x-2">
+          <Avatar>
+            <AvatarImage src={user.image} alt={user.name} />
+            <AvatarFallback>{user.name.slice(0, 2)}</AvatarFallback>
+          </Avatar>
+          <Input
+            value={user.name}
+            onChange={(e) => updateUserName(e.target.value)}
+            className="flex-1"
+          />
+        </div>
+      )}
+      <form onSubmit={handleSubmit} className="space-y-2">
         <Textarea
           placeholder="Your Message"
           value={newWish.message}
-          onChange={(e) =>
-            setNewWish((prev) => ({ ...prev, message: e.target.value }))
-          }
+          onChange={(e) => setNewWish({ message: e.target.value })}
           required
+          className="resize-none"
+          rows={3}
         />
-        <Button type="submit" className="w-full">
-          Send Wish
+        <Button type="submit" className="w-full" disabled={isPending}>
+          {isPending ? "Sending..." : "Send Wish"}
         </Button>
       </form>
-      <ScrollArea className="h-[300px]">
-        <div ref={wishesEndRef} />
+      <ScrollArea className="h-48">
         <AnimatePresence>
           {wishes.map((wish) => (
             <motion.div
@@ -95,16 +113,23 @@ export default function Wishes({ initialWishes }: WishesProps) {
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
             >
-              <Card className="mb-4">
-                <CardContent className="pt-4">
-                  <p className="font-semibold">{wish.name}</p>
-                  <p className="text-gray-600">{wish.message}</p>
+              <Card className="mb-2">
+                <CardContent className="p-2">
+                  <div className="flex items-center space-x-2 mb-1">
+                    <Avatar className="w-6 h-6">
+                      <AvatarImage src={wish.image} alt={wish.name} />
+                      <AvatarFallback>{wish.name.slice(0, 2)}</AvatarFallback>
+                    </Avatar>
+                    <p className="text-sm font-semibold">{wish.name}</p>
+                  </div>
+                  <p className="text-sm text-gray-600">{wish.message}</p>
                 </CardContent>
               </Card>
             </motion.div>
           ))}
         </AnimatePresence>
+        <div ref={wishesEndRef} />
       </ScrollArea>
-    </section>
+    </div>
   );
 }
