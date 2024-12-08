@@ -5,6 +5,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { Sheet, SheetClose, SheetContent, SheetTrigger } from "./ui/sheet";
+import { Menu } from "lucide-react";
 
 const navItems = [
   { href: "/", label: "Home" },
@@ -43,9 +45,9 @@ export function NavBar() {
     >
       <div className="container mx-auto px-4 py-2 flex justify-between items-center">
         <Link href="/" className="text-xl font-bold text-gray-800">
-          Elder David Okoobo Ovienria
+          Celebration of Life
         </Link>
-        <div className="flex space-x-2">
+        <div className="md:flex space-x-2 hidden">
           {navItems.map((item) => (
             <Button
               key={item.href}
@@ -56,6 +58,25 @@ export function NavBar() {
             </Button>
           ))}
         </div>
+        <Sheet>
+          <SheetTrigger>
+            <Menu />
+          </SheetTrigger>
+          <SheetContent side={"right"}>
+            <div className="grid gap-4 pt-12">
+              {navItems.map((item) => (
+                <SheetClose key={item.href} asChild>
+                  <Button
+                    variant={pathname === item.href ? "default" : "ghost"}
+                    asChild
+                  >
+                    <Link href={item.href}>{item.label}</Link>
+                  </Button>
+                </SheetClose>
+              ))}
+            </div>
+          </SheetContent>
+        </Sheet>
       </div>
     </nav>
   );

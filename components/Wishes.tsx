@@ -7,11 +7,11 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useStore, Wish } from "@/store/useStore";
 import { addWish } from "@/app/actions/wishes";
 import { pusherClient } from "@/lib/pusher";
+import { LoaderPinwheel, Send } from "lucide-react";
 
 interface WishesProps {
   initialWishes: Wish[];
@@ -86,20 +86,8 @@ export default function Wishes({ initialWishes }: WishesProps) {
           />
         </div>
       )}
-      <form onSubmit={handleSubmit} className="space-y-2">
-        <Textarea
-          placeholder="Your Message"
-          value={newWish.message}
-          onChange={(e) => setNewWish({ message: e.target.value })}
-          required
-          className="resize-none"
-          rows={3}
-        />
-        <Button type="submit" className="w-full" disabled={isPending}>
-          {isPending ? "Sending..." : "Send Wish"}
-        </Button>
-      </form>
-      <ScrollArea className="h-48">
+      <ScrollArea className="h-72">
+        <div ref={wishesEndRef} />
         <AnimatePresence>
           {wishes.map((wish) => (
             <motion.div
@@ -124,8 +112,18 @@ export default function Wishes({ initialWishes }: WishesProps) {
             </motion.div>
           ))}
         </AnimatePresence>
-        <div ref={wishesEndRef} />
       </ScrollArea>
+      <form onSubmit={handleSubmit} className="grid relative">
+        <Input
+          placeholder="Your Message"
+          value={newWish.message}
+          onChange={(e) => setNewWish({ message: e.target.value })}
+          required
+        />
+        <Button type="submit" className="absolute right-0" disabled={isPending}>
+          {isPending ? <LoaderPinwheel className="animate-spin" /> : <Send />}
+        </Button>
+      </form>
     </div>
   );
 }

@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import YouTube from "react-youtube";
-import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
 
 interface LiveStreamProps {
   streamUrl: string;
@@ -14,6 +14,7 @@ export default function LiveStream({
   className = "",
 }: LiveStreamProps) {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isPiP, setIsPiP] = useState(false);
   const streamRef = useRef<HTMLDivElement>(null);
 
   const getYouTubeVideoId = (url: string) => {
@@ -25,53 +26,83 @@ export default function LiveStream({
 
   const videoId = getYouTubeVideoId(streamUrl);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (streamRef.current) {
+        const rect = streamRef.current.getBoundingClientRect();
+        setIsPiP(rect.bottom < 0 || rect.top > window.innerHeight);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   if (!videoId) {
     return (
       <div
-        className={`w-full h-full flex items-center justify-center bg-gray-100 text-gray-500 ${className}`}
+        className={`w-full h-0 pb-[56.25%] relative bg-black rounded-lg overflow-hidden ${className}`}
       >
-        Invalid YouTube URL
+        <div className="absolute inset-0 flex items-center justify-center text-white">
+          Invalid YouTube URL
+        </div>
       </div>
     );
   }
 
   return (
-    <motion.div
-      ref={streamRef}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-      // @ts-expect-error: Classname exists
-      className={`w-full h-full relative bg-black overflow-hidden ${className}`}
-    >
-      <div className="absolute inset-0">
-        <YouTube
-          videoId={videoId}
-          opts={{
-            width: "100%",
-            height: "100%",
-            playerVars: {
-              autoplay: 1,
-              modestbranding: 1,
-              rel: 0,
-            },
-          }}
-          className="absolute top-0 left-0 w-full h-full"
-          iframeClassName="w-full h-full"
-          onReady={() => setIsLoaded(true)}
-        />
+    <>
+      <div
+        ref={streamRef}
+        className={`w-full h-0 pb-[56.25%] relative bg-black rounded-lg overflow-hidden ${className}`}
+      >
+        <div className="absolute inset-0">
+          <YouTube
+            videoId={videoId}
+            opts={{
+              width: "100%",
+              height: "100%",
+              playerVars: {
+                autoplay: 1,
+                modestbranding: 1,
+                rel: 0,
+              },
+            }}
+            className="absolute top-0 left-0 w-full h-full"
+            iframeClassName="w-full h-full"
+            onReady={() => setIsLoaded(true)}
+          />
+        </div>
+        {!isLoaded && (
+          <div className="absolute inset-0 flex items-center justify-center bg-gray-900 text-white">
+            Loading live stream...
+          </div>
+        )}
       </div>
-      {!isLoaded && (
-        <motion.div
-          initial={{ opacity: 1 }}
-          animate={{ opacity: 0 }}
-          transition={{ duration: 0.5, delay: 1 }}
-          // @ts-expect-error: Classname exists
-          className="absolute inset-0 flex items-center justify-center bg-gray-900 text-white"
-        >
-          Loading live stream...
-        </motion.div>
+      {isPiP && (
+        <div className="fixed bottom-4 right-4 w-64 h-36 bg-black rounded-lg overflow-hidden shadow-lg z-50">
+          <YouTube
+            videoId={videoId}
+            opts={{
+              width: "100%",
+              height: "100%",
+              playerVars: {
+                autoplay: 1,
+                modestbranding: 1,
+                rel: 0,
+              },
+            }}
+            className="w-full h-full"
+          />
+          <Button
+            className="absolute top-2 right-2 bg-black bg-opacity-50 hover:bg-opacity-75 text-white"
+            size="sm"
+            onClick={() => setIsPiP(false)}
+          >
+            Close
+          </Button>
+        </div>
       )}
-    </motion.div>
+    </>
   );
 }

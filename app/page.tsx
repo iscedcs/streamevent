@@ -2,10 +2,12 @@ import { Button } from "@/components/ui/button";
 import InfoModal from "@/components/InfoModal";
 import Appreciation from "@/components/Appreciation";
 import Link from "next/link";
+import LiveStream from "@/components/LiveStream";
 
 export default function Home() {
   return (
     <div className="space-y-8">
+      <LiveStream streamUrl="https://youtube.com/live/MVu0Yc6OlaU?feature=share" />
       <section>
         <h3 className="text-2xl font-semibold mb-4">Event Details</h3>
         <p>
