@@ -22,7 +22,7 @@ export default function FloatingElements({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: "100%" }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            // @ts-expect-error
+            // @ts-expect-error: Something went wrong
             className="fixed bottom-4 right-4 w-80 z-50"
           >
             <div className="bg-white rounded-lg shadow-lg overflow-hidden">
