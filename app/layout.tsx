@@ -3,7 +3,6 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { NavBar } from "@/components/NavBar";
 import { getWishes } from "./actions/wishes";
-import FloatingElements from "@/components/FloatingElements";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -32,21 +31,17 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <NavBar />
-        <header className="bg-gray-800 text-white p-4 text-center mt-16">
-          <h1 className="text-3xl font-semibold">Celebration of Life</h1>
-          <h2 className="text-2xl mt-2">Elder David Okoobo Ovienria JP</h2>
-          <p className="text-xl mt-1">1940 - 2024</p>
-          <p className="mt-2">Age 84</p>
-        </header>
-        <main className="container mx-auto px-4 py-8">{children}</main>
-        <FloatingElements initialWishes={initialWishes} />
-        <footer className="bg-gray-800 text-white p-4 text-center">
-          <p>
-            &copy; 2024 In Memory of Elder David Okoobo Ovienria JP. All rights
-            reserved.
-          </p>
-        </footer>
+        <div className="min-h-screen bg-gradient-to-br from-purple-400 via-pink-500 to-red-500">
+          <NavBar />
+          <main className="container mx-auto px-4 py-8">{children}</main>
+          {/* <FloatingElements initialWishes={initialWishes} /> */}
+          <footer className="bg-white bg-opacity-90 mt-12 py-6">
+            <div className="container mx-auto px-4 text-center text-gray-600">
+              <p>In loving memory of John Doe Smith | 1935 - 2023</p>
+              <p className="mt-2">Created with love by family and friends</p>
+            </div>
+          </footer>
+        </div>
       </body>
     </html>
   );

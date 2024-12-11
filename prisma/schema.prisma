@@ -17,3 +17,9 @@ model Wish {
   createdAt DateTime @default(now())
 }
 
+model GuestbookEntry {
+  id        String   @id @default(cuid())
+  name      String
+  message   String
+  createdAt DateTime @default(now())
+}

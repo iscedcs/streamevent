@@ -11,33 +11,33 @@ const familyMembers: FamilyMember[] = [
   {
     name: "Mrs. Elizabeth Ovienria",
     relation: "Wife",
-    image: "/placeholder.svg?height=200&width=200&text=Elizabeth",
+    image: "/square.jpg",
   },
   {
     name: "Dr. Wilson Abhuluime Ovienria",
     relation: "Son",
-    image: "/placeholder.svg?height=200&width=200&text=Wilson",
+    image: "/square.jpg",
   },
   {
     name: "Dickson Odabi",
     relation: "Son",
-    image: "/placeholder.svg?height=200&width=200&text=Dickson",
+    image: "/square.jpg",
   },
   {
     name: "Ebehi Odabi",
     relation: "Daughter",
-    image: "/placeholder.svg?height=200&width=200&text=Ebehi",
+    image: "/square.jpg",
   },
   {
     name: "Osahon Darius Odabi",
     relation: "Grandson",
-    image: "/placeholder.svg?height=200&width=200&text=Osahon",
+    image: "/square.jpg",
   },
 ];
 
 export default function SurvivedByPage() {
   return (
-    <div className="container mx-auto py-8">
+    <div className="container mx-auto">
       <h1 className="text-3xl font-bold mb-6">Survived By</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {familyMembers.map((member) => (

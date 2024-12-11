@@ -3,15 +3,15 @@
 import { useState, useEffect, useRef, useTransition } from "react";
 import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useStore, Wish } from "@/store/useStore";
 import { addWish } from "@/app/actions/wishes";
 import { pusherClient } from "@/lib/pusher";
 import { LoaderPinwheel, Send } from "lucide-react";
+import { Textarea } from "./ui/textarea";
 
 interface WishesProps {
   initialWishes: Wish[];
@@ -72,58 +72,86 @@ export default function Wishes({ initialWishes }: WishesProps) {
   };
 
   return (
-    <div className="space-y-4">
-      {user && (
-        <div className="flex items-center space-x-2">
-          <Avatar>
-            <AvatarImage src={user.image} alt={user.name} />
-            <AvatarFallback>{user.name.slice(0, 2)}</AvatarFallback>
-          </Avatar>
-          <Input
-            value={user.name}
-            onChange={(e) => updateUserName(e.target.value)}
-            className="flex-1"
-          />
-        </div>
-      )}
-      <ScrollArea className="h-72">
-        <div ref={wishesEndRef} />
-        <AnimatePresence>
-          {wishes.map((wish) => (
-            <motion.div
-              key={wish.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
+    <Card className="bg-white bg-opacity-90 shadow-xl rounded-lg overflow-hidden">
+      <CardHeader>
+        <CardTitle className="text-2xl font-bold text-purple-800">
+          Share Your Memory
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={handleSubmit} className="grid relative space-y-4">
+          <div>
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-gray-700"
             >
-              <Card className="mb-2">
-                <CardContent className="p-2">
-                  <div className="flex items-center space-x-2 mb-1">
-                    <Avatar className="w-6 h-6">
-                      <AvatarImage src={wish.image} alt={wish.name} />
-                      <AvatarFallback>{wish.name.slice(0, 2)}</AvatarFallback>
-                    </Avatar>
-                    <p className="text-sm font-semibold">{wish.name}</p>
-                  </div>
-                  <p className="text-sm text-gray-600">{wish.message}</p>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
-        </AnimatePresence>
-      </ScrollArea>
-      <form onSubmit={handleSubmit} className="grid relative">
-        <Input
-          placeholder="Your Message"
-          value={newWish.message}
-          onChange={(e) => setNewWish({ message: e.target.value })}
-          required
-        />
-        <Button type="submit" className="absolute right-0" disabled={isPending}>
-          {isPending ? <LoaderPinwheel className="animate-spin" /> : <Send />}
-        </Button>
-      </form>
-    </div>
+              Your Name
+            </label>
+            <Input
+              type="text"
+              id="name"
+              onChange={(e) => updateUserName(e.target.value)}
+              className="mt-1"
+              placeholder="Enter your name"
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="message"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Your Memory
+            </label>
+            <Textarea
+              id="message"
+              required
+              value={newWish.message}
+              onChange={(e) => setNewWish({ message: e.target.value })}
+              className="mt-1"
+              placeholder="Share your favorite memory of John"
+              rows={4}
+            />
+          </div>
+
+          <Button disabled={isPending} type="submit" className="w-full">
+            {isPending ? (
+              <LoaderPinwheel className="animate-spin w-4 h-4 mr-2" />
+            ) : (
+              <Send className="w-4 h-4 mr-2" />
+            )}
+            Share Memory
+          </Button>
+        </form>
+        <div className="mt-8">
+          <h3 className="text-xl font-semibold mb-4 text-purple-700">
+            Recent Memories
+          </h3>
+          <ScrollArea className="space-y-4 h-72">
+            <div ref={wishesEndRef} />
+            <AnimatePresence>
+              {wishes.map((wish) => (
+                <motion.div
+                  key={wish.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <Card className="bg-pink-50">
+                    <CardContent className="p-4">
+                      <p className="text-gray-800">{wish.message}</p>
+                      <p className="text-sm text-gray-600 mt-2">
+                        - {wish.name}
+                      </p>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </ScrollArea>
+        </div>
+      </CardContent>
+    </Card>
   );
 }
+
