@@ -11,9 +11,10 @@ const navItems = [
   { href: "/", label: "Home" },
   { href: "/live-stream", label: "Live Stream" },
   { href: "/biography", label: "Biography" },
+  { href: "/tributes", label: "Tributes" },
   { href: "/order-of-service", label: "Order of Service" },
   { href: "/gallery", label: "Photo Gallery" },
-  { href: "/survived-by", label: "Survived By" },
+  // { href: "/survived-by", label: "Survived By" },
   { href: "/guestbook", label: "Guestbook" },
 ];
 
@@ -64,42 +65,3 @@ export function NavBar() {
     </nav>
   );
 }
-
-<header className="bg-white bg-opacity-90 shadow-md">
-  <nav className="container mx-auto px-6 py-3">
-    <ul className="flex justify-center space-x-4">
-      <li>
-        <Link
-          href="/"
-          className="text-purple-600 hover:text-purple-800 font-semibold"
-        >
-          Home
-        </Link>
-      </li>
-      <li>
-        <Link
-          href="/live-stream"
-          className="text-purple-600 hover:text-purple-800 font-semibold"
-        >
-          Live Stream
-        </Link>
-      </li>
-      <li>
-        <Link
-          href="/gallery"
-          className="text-purple-600 hover:text-purple-800 font-semibold"
-        >
-          Photo Gallery
-        </Link>
-      </li>
-      <li>
-        <Link
-          href="/guestbook"
-          className="text-purple-600 hover:text-purple-800 font-semibold"
-        >
-          Guestbook
-        </Link>
-      </li>
-    </ul>
-  </nav>
-</header>;

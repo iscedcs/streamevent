@@ -80,7 +80,7 @@ export default function Guestbook({ initialEntries }: GuestbookProps) {
           Guestbook
         </CardTitle>
         <p className="text-gray-600 mt-2">
-          Share your thoughts and memories of John Doe Smith
+          Share your thoughts and memories of Elder David Okoobo Ovienria JP
         </p>
       </CardHeader>
       <CardContent>

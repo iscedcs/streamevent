@@ -109,13 +109,17 @@ export default function HomePage() {
                 left in our hearts.
               </p>
               <div className="flex flex-wrap gap-4 mt-4">
-                <Button>
-                  <Video className="w-4 h-4 mr-2" />
-                  Join Live Stream
+                <Button asChild>
+                  <Link href={`/live-stream`}>
+                    <Video className="w-4 h-4 mr-2" />
+                    Join Live Stream
+                  </Link>
                 </Button>
-                <Button variant="secondary">
-                  <Camera className="w-4 h-4 mr-2" />
-                  View Photo Gallery
+                <Button variant="secondary" asChild>
+                  <Link href={`/gallery`}>
+                    <Camera className="w-4 h-4 mr-2" />
+                    View Photo Gallery
+                  </Link>
                 </Button>
               </div>
             </div>

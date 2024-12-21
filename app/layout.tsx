@@ -37,7 +37,9 @@ export default async function RootLayout({
           {/* <FloatingElements initialWishes={initialWishes} /> */}
           <footer className="bg-white bg-opacity-90 mt-12 py-6">
             <div className="container mx-auto px-4 text-center text-gray-600">
-              <p>In loving memory of John Doe Smith | 1935 - 2023</p>
+              <p>
+                In loving memory of Elder David Okoobo Ovienria JP | 1940 - 2024
+              </p>
               <p className="mt-2">Created with love by family and friends</p>
             </div>
           </footer>

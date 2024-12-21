@@ -129,24 +129,35 @@ export default function Wishes({ initialWishes }: WishesProps) {
           <ScrollArea className="space-y-4 h-72">
             <div ref={wishesEndRef} />
             <AnimatePresence>
-              {wishes.map((wish) => (
-                <motion.div
-                  key={wish.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <Card className="bg-pink-50">
-                    <CardContent className="p-4">
-                      <p className="text-gray-800">{wish.message}</p>
-                      <p className="text-sm text-gray-600 mt-2">
-                        - {wish.name}
-                      </p>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))}
+              {wishes.length > 0 ? (
+                wishes.map((wish) => (
+                  <motion.div
+                    key={wish.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <Card className="bg-pink-50">
+                      <CardContent className="p-4">
+                        <p className="text-gray-800">{wish.message}</p>
+                        <p className="text-sm text-gray-600 mt-2">
+                          - {wish.name}
+                        </p>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                ))
+              ) : (
+                <Card className="bg-pink-50">
+                  <CardContent className="p-4">
+                    <p className="text-gray-800">{"No wishes yet"}</p>
+                    <p className="text-sm text-gray-600 mt-2 italic">
+                      - {"Admin"}
+                    </p>
+                  </CardContent>
+                </Card>
+              )}
             </AnimatePresence>
           </ScrollArea>
         </div>

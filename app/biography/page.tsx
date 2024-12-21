@@ -21,7 +21,7 @@ export default function BiographyPage() {
           <CardTitle className="text-4xl font-bold">
             The Life of Elder David Okoobo Ovienria
           </CardTitle>
-          <p className="text-xl mt-2">April 6, 1940 - 2023</p>
+          <p className="text-xl mt-2">April 6, 1940 - 2024</p>
         </CardHeader>
         <CardContent className="p-6">
           <div className="flex flex-col md:flex-row items-center md:items-start gap-6 mb-8">
