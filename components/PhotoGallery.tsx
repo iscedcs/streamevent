@@ -26,7 +26,7 @@ export function PhotoGallery() {
     null
   );
   const [currentPage, setCurrentPage] = useState(1);
-  const photosPerPage = 12;
+  const photosPerPage = 21;
 
   const indexOfLastPhoto = currentPage * photosPerPage;
   const indexOfFirstPhoto = indexOfLastPhoto - photosPerPage;
@@ -75,8 +75,7 @@ export function PhotoGallery() {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8 text-center">Photo Gallery</h1>
+    <div className="max-w-7xl mx-auto px-4 pb-8">
       <AnimatePresence mode="wait">
         <motion.div
           key={currentPage}
@@ -106,20 +105,20 @@ export function PhotoGallery() {
           onClick={prevPage}
           disabled={currentPage === 1}
           variant="outline"
-          className="px-4 py-2"
+          className="p-2"
         >
-          <ChevronLeft className="mr-2 h-4 w-4" /> Previous
+          <ChevronLeft className="mr-0.5 h-4 w-4" /> Previous
         </Button>
-        <span className="text-lg font-medium">
-          Page {currentPage} of {totalPages}
+        <span className="font-medium">
+          {currentPage} of {totalPages}
         </span>
         <Button
           onClick={nextPage}
           disabled={currentPage === totalPages}
           variant="outline"
-          className="px-4 py-2"
+          className="p-2"
         >
-          Next <ChevronRight className="ml-2 h-4 w-4" />
+          Next <ChevronRight className="ml-0.5 h-4 w-4" />
         </Button>
       </div>
 
