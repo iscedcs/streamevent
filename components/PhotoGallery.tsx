@@ -2,10 +2,13 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { cn } from "@/lib/utils";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { BentoImageGrid, BentoImageGridItem } from "./ui/bento-grids-image";
+import { motion, AnimatePresence } from "framer-motion";
 
-const photos = Array.from({ length: 34 }).map((_, index) => ({
+const photos = Array.from({ length: 128 }).map((_, index) => ({
   src: `/whatsapp/(${index + 1}).jpg`,
   alt: `Memory ${index + 1}`,
   size:
@@ -19,62 +22,171 @@ const photos = Array.from({ length: 34 }).map((_, index) => ({
 }));
 
 export function PhotoGallery() {
-  const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
+  const [selectedPhotoIndex, setSelectedPhotoIndex] = useState<number | null>(
+    null
+  );
+  const [currentPage, setCurrentPage] = useState(1);
+  const photosPerPage = 12;
+
+  const indexOfLastPhoto = currentPage * photosPerPage;
+  const indexOfFirstPhoto = indexOfLastPhoto - photosPerPage;
+  const currentPhotos = photos.slice(indexOfFirstPhoto, indexOfLastPhoto);
+
+  const totalPages = Math.ceil(photos.length / photosPerPage);
+
+  const nextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const prevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const openSlideshow = (index: number) => {
+    setSelectedPhotoIndex(index);
+  };
+
+  const closeSlideshow = () => {
+    setSelectedPhotoIndex(null);
+  };
+
+  const goToPrevious = () => {
+    setSelectedPhotoIndex((prevIndex) =>
+      prevIndex !== null
+        ? (prevIndex - 1 + photos.length) % photos.length
+        : null
+    );
+  };
+
+  const goToNext = () => {
+    setSelectedPhotoIndex((prevIndex) =>
+      prevIndex !== null ? (prevIndex + 1) % photos.length : null
+    );
+  };
+
+  const col2s = [
+    0, 4, 8, 9, 13, 17, 18, 22, 26, 27, 31, 35, 36, 40, 44, 45, 49, 53, 54, 58,
+    62, 63, 67, 71, 72, 76, 80, 81, 85, 89, 90, 94, 98, 99, 103, 107, 108, 112,
+    116, 117, 121, 125, 126, 127,
+  ];
 
   return (
-    <>
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-4 p-4">
-        {photos.map((photo, index) => (
-          <div
-            key={index}
-            className={cn(
-              "relative overflow-hidden rounded-lg shadow-md transition-all duration-300 hover:shadow-xl cursor-pointer",
-              {
-                "col-span-2 row-span-2": photo.size === "large",
-                "col-span-2": photo.size === "wide",
-                "row-span-2": photo.size === "tall",
-              }
-            )}
-            onClick={() => setSelectedPhoto(photo.src)}
-          >
-            <div
-              className={cn("relative w-full", {
-                "aspect-square":
-                  photo.size === "normal" || photo.size === "large",
-                "aspect-video": photo.size === "wide",
-                "aspect-[3/4]": photo.size === "tall",
-              })}
-            >
-              <Image
-                src={photo.src}
-                alt={photo.alt}
-                width={800}
-                height={800}
-                className="transition-transform duration-300 hover:scale-110 h-full w-full object-cover"
+    <div className="max-w-7xl mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold mb-8 text-center">Photo Gallery</h1>
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={currentPage}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 0.3 }}
+        >
+          <BentoImageGrid className="max-w-4xl mx-auto gap-4">
+            {currentPhotos.map((photo, i) => (
+              <BentoImageGridItem
+                imageUrl={photo.src}
+                key={i}
+                title={photo.alt}
+                className={`${
+                  col2s.includes(i) ? "md:col-span-2" : ""
+                } transition-transform duration-300 hover:scale-105 cursor-pointer`}
+                onClick={() => openSlideshow(i + indexOfFirstPhoto)}
               />
-            </div>
-            <div className="absolute inset-0 bg-black bg-opacity-0 transition-opacity duration-300 hover:bg-opacity-30" />
-          </div>
-        ))}
+            ))}
+          </BentoImageGrid>
+        </motion.div>
+      </AnimatePresence>
+
+      <div className="flex justify-center items-center mt-8 space-x-4">
+        <Button
+          onClick={prevPage}
+          disabled={currentPage === 1}
+          variant="outline"
+          className="px-4 py-2"
+        >
+          <ChevronLeft className="mr-2 h-4 w-4" /> Previous
+        </Button>
+        <span className="text-lg font-medium">
+          Page {currentPage} of {totalPages}
+        </span>
+        <Button
+          onClick={nextPage}
+          disabled={currentPage === totalPages}
+          variant="outline"
+          className="px-4 py-2"
+        >
+          Next <ChevronRight className="ml-2 h-4 w-4" />
+        </Button>
       </div>
 
-      <Dialog
-        open={!!selectedPhoto}
-        onOpenChange={() => setSelectedPhoto(null)}
-      >
-        <DialogContent className="max-w-3xl">
-          {selectedPhoto && (
-            <div className="relative aspect-[4/3]">
-              <Image
-                src={selectedPhoto}
-                alt="Selected photo"
-                layout="fill"
-                objectFit="contain"
-              />
-            </div>
-          )}
+      <Dialog open={selectedPhotoIndex !== null} onOpenChange={closeSlideshow}>
+        <DialogContent className="max-w-5xl p-0 overflow-hidden bg-black">
+          <DialogTitle hidden>Photo Slideshow</DialogTitle>
+          <div className="relative h-[80vh]">
+            <AnimatePresence mode="wait">
+              {selectedPhotoIndex !== null && (
+                <motion.div
+                  key={selectedPhotoIndex}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  // @ts-expect-error: `className` prop is not recognized by the `div` element
+                  className="h-full"
+                >
+                  <Image
+                    src={photos[selectedPhotoIndex].src}
+                    alt={photos[selectedPhotoIndex].alt}
+                    layout="fill"
+                    objectFit="contain"
+                  />
+                  <motion.p
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.2, duration: 0.3 }}
+                    // @ts-expect-error: `className` prop is not recognized by the `p` element
+                    className="absolute bottom-4 left-4 text-white bg-black bg-opacity-50 p-2 rounded"
+                    aria-label="Photo description"
+                  >
+                    {photos[selectedPhotoIndex].alt}
+                  </motion.p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute top-2 right-2 text-white hover:bg-white/20"
+              onClick={closeSlideshow}
+              aria-label="Close slideshow"
+            >
+              <X className="h-6 w-6" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute left-2 top-1/2 transform -translate-y-1/2 text-white hover:bg-white/20"
+              onClick={goToPrevious}
+              aria-label="Previous photo"
+            >
+              <ChevronLeft className="h-8 w-8" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute right-2 top-1/2 transform -translate-y-1/2 text-white hover:bg-white/20"
+              onClick={goToNext}
+              aria-label="Next photo"
+            >
+              <ChevronRight className="h-8 w-8" />
+            </Button>
+          </div>
         </DialogContent>
       </Dialog>
-    </>
+    </div>
   );
 }

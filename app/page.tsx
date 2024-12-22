@@ -81,13 +81,14 @@ export default function HomePage() {
 
               <div className="bg-pink-50 p-6 rounded-lg shadow">
                 <h3 className="text-2xl font-semibold mb-3 text-pink-700">
-                  Family & Friends
+                  Family & Personal Life
                 </h3>
                 <p>
-                  John's greatest masterpiece was his family. He is survived by
-                  his loving wife Sarah, children Michael and Emily, and
-                  grandchildren Emma, Jack, Olivia, and Noah. Each a brushstroke
-                  in his beautiful life's painting.
+                  David met his wife Christiana nee Oshiobugie at Elele
+                  Government Farms. Their love story led to marriage within a
+                  year. Together, they raised six children, all of whom became
+                  graduates. His family life was as rich and fulfilling as his
+                  professional career.
                 </p>
                 <Button variant="outline" className="mt-2" asChild>
                   <Link href="/live-stream">

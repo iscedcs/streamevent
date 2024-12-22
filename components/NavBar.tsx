@@ -13,7 +13,7 @@ const navItems = [
   { href: "/biography", label: "Biography" },
   { href: "/tributes", label: "Tributes" },
   { href: "/order-of-service", label: "Order of Service" },
-  { href: "/gallery", label: "Photo Gallery" },
+  { href: "/gallery", label: "Gallery" },
   // { href: "/survived-by", label: "Survived By" },
   { href: "/guestbook", label: "Guestbook" },
 ];
