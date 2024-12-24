@@ -12,7 +12,7 @@ const navItems = [
   { href: "/live-stream", label: "Live Stream" },
   { href: "/biography", label: "Biography" },
   { href: "/tributes", label: "Tributes" },
-  { href: "/order-of-service", label: "Order of Service" },
+  { href: "/programme", label: "Programme" },
   { href: "/gallery", label: "Gallery" },
   // { href: "/survived-by", label: "Survived By" },
   { href: "/guestbook", label: "Guestbook" },

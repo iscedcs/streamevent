@@ -20,7 +20,7 @@ const initialTributes = [
     id: 2,
     author: "Mrs. Angela Isimeme Aluko",
     relation: "Daughter",
-    topic: "MISS YOU ALWAYS DAD",
+    topic: "I MISS YOU ALWAYS DAD",
     content: `
         On Friday 5th of July 2024 that you departed has led my heart broken. The memory I treasured daily, and the tears that still flow brings you to my
         heart every day and that is how it will always be. My lovely father was an advocate of peace. My Hero you lived an exemplary life and showed fatherly
@@ -31,6 +31,18 @@ const initialTributes = [
         cheerful person, you can hardly see my father frowning. I will never forget your jokes my hero. I will forever be grateful for having you as my father.
         I miss you so much dad, you will forever remain in my heart. The fact that you are no longer there will always cause me pain. Goodnight and rest on my daddy
         till we meet again.`,
+  },
+  {
+    id: 16,
+    author: "Mrs. Ebehireme Magdaline Odabi.",
+    relation: "Daughter",
+    topic: "A TRIBUTE TO A DAD WITH A GOLDEN HEART",
+    content: `
+        I lost a dad with a golden heart and how much we miss
+        you can never be told. You raised us with love and this
+        has carried us all along in life. We will follow your
+        footsteps and will never go wrong.
+        Love you forever dad.`,
   },
   {
     id: 3,

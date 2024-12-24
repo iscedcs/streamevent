@@ -69,7 +69,7 @@ export default function HomePage() {
                   Elder David Okoobo Ovienria was born on the 6 day of April,
                   1940 in Eguare Irrua, the current Esan Central Local
                   Government Area of Edo State, Nigeria to the family of Chief
-                  Aarabhor Ovienria and Mrs. Iduaisili Ovienria nee Eigbe.
+                  Afiarabhor Ovienria and Mrs. Iduaisili Ovienria nee Eigbe.
                 </p>
                 <Button variant="outline" className="mt-2" asChild>
                   <Link href="/biography">
@@ -104,10 +104,9 @@ export default function HomePage() {
                 Celebration of Life
               </h3>
               <p>
-                Join us in honoring John's vibrant life on June 15, 2023, at
-                2:00 PM at Springfield Community Garden. Let's come together to
-                share stories, laughter, and the colorful memories that John has
-                left in our hearts.
+                Join us in honoring Elder David Okoobo Ovienria's vibrant life.
+                Let's come together to share stories, laughter, and the colorful
+                memories that he has left in our hearts.
               </p>
               <div className="flex flex-wrap gap-4 mt-4">
                 <Button asChild>
