@@ -63,7 +63,7 @@ const orderOfFuneralService = [
     type: "hymn",
     title: "My Hope Is Built on Nothing Less",
     lyrics:
-      "My hope is built on nothing less\nThan Jesus' blood and righteousness;\nI dare not trust the sweetest frame,\nBut wholly lean on Jesus' name.\nOn Christ, the solid Rock, I stand;\nAll other ground is sinking sand,\nAll other ground is sinking sand.",
+      "My hope is built on nothing less\nThan Jesus' blood and righteousness;\nI dare not trust the sweetest frame,\nBut wholly lean on Jesus' name.\nOn Christ, the solid Rock, I stand;\nAll other ground is sinking sand,\nAll other ground is sinking sand.\n\nWhen darkness veils His lovely face,\nI rest on His unchanging grace;\nIn every high and stormy gale,\nMy anchor holds within the veil.\n\nHis oath, His covenant, His blood,\nSupport me in the whelming flood;\nWhen all around my soul gives way,\nHe then is all my hope and stay.\n\nWhen He shall come with trumpet sound,\nOh, may I then in Him be found;\nIn Him, my righteousness, alone,\nFaultless to stand before the throne.",
   },
   "First bible Reading",
   "Biography",
@@ -76,7 +76,7 @@ const orderOfFuneralService = [
     type: "hymn",
     title: "Amazing Grace",
     lyrics:
-      "Amazing grace! How sweet the sound\nThat saved a wretch like me!\nI once was lost, but now am found;\nWas blind, but now I see.",
+      "Amazing grace! How sweet the sound\nThat saved a wretch like me!\nI once was lost, but now am found;\nWas blind, but now I see.\n\nThrough many dangers, toils and snares\nI have already come.\n‘Tis grace has brought me safe thus far\nAnd grace will lead me home.\n\nThe Lord has promised good to me,\nHis word my hope secures;\nHe will my shield and portion be\nAs long as life endures.\n\nyea, when this flesh and heart shall\nfail, And mortal life shall cease\nI shall possess within the veil,\nA life of joy and peace.\n\nThe earth shall soon dissolve like\nsnow, the sun forbear to shine.\nbut God, who called me here below,\nwill be forever mine.\n\nWhen we’ve been there ten thousand\nyears, Bright shining as the sun,\nWe’ve no less days to sing God’s\npraise Than when we’ve first begun.",
   },
   "Vote of thanks",
   "Closing Prayer and benediction",
@@ -84,7 +84,7 @@ const orderOfFuneralService = [
     type: "hymn",
     title: "God Be with You Till We Meet Again",
     lyrics:
-      "God be with you till we meet again;\nBy His counsels guide, uphold you,\nWith His sheep securely fold you;\nGod be with you till we meet again.\nTill we meet, till we meet,\nTill we meet at Jesus' feet;\nTill we meet, till we meet,\nGod be with you till we meet again.",
+      "God be with you till we meet again;\nBy His counsels guide, uphold you,\nWith His sheep securely fold you;\nGod be with you till we meet again.\nTill we meet, till we meet,\nTill we meet at Jesus' feet;\nTill we meet, till we meet,\nGod be with you till we meet again.\n\nGod be with you till we meet again!\nWhen life’s perils thick confound you.\nGod be with you till we meet again.\ntill we meet, ...\n\nGod be with you till we meet again!\nKeep love’s banner floating o’er you;\nSmile death’s threat’ning wave before you.\nGod be with you till we meet again.\ntill we meet,...",
   },
 ];
 
