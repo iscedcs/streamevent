@@ -33,7 +33,7 @@ export function LiveStreamPopover() {
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-80 p-0">
-        <LiveStream streamUrl="https://youtube.com/live/MVu0Yc6OlaU?feature=share" />
+        <LiveStream streamUrl="https://www.youtube.com/live/K9slechFlow?si=FYrCWERMF4_CGRzD" />
       </PopoverContent>
     </Popover>
   );
