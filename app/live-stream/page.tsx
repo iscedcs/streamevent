@@ -18,7 +18,7 @@ export default async function LiveStreamPage() {
         <CardContent>
           <div className="aspect-w-16 aspect-h-9 bg-gray-200 rounded-lg overflow-hidden">
             {/* <LiveStream streamUrl="https://youtube.com/live/MVu0Yc6OlaU?feature=share" /> */}
-            <LiveStream streamUrl="https://www.youtube.com/live/K9slechFlow?si=FYrCWERMF4_CGRzD" />
+            <LiveStream streamUrl="https://m.youtube.com/watch?v=O0ENfzdp3PU&pp=0AUB" />
             <div className="flex items-center justify-center h-full">
               <Video className="w-16 h-16 text-gray-400" />
               <p className="ml-4 text-gray-600">
