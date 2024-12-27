@@ -108,7 +108,7 @@ export default function Wishes({ initialWishes }: WishesProps) {
               value={newWish.message}
               onChange={(e) => setNewWish({ message: e.target.value })}
               className="mt-1"
-              placeholder="Share your favorite memory of John"
+              placeholder="Share your favorite memory of Elder David"
               rows={4}
             />
           </div>
